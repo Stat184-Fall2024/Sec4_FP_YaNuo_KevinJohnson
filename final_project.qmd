@@ -1,0 +1,37 @@
+---
+title: "Exploring Employment Changes Across Industries"
+author: "Ya-Nuo, Hsu and Kevin Johnson"
+format: pdf
+editor: visual
+---
+
+# Introduction
+
+Employment trends provide key insights into economic conditions, indicating which industries are growing or declining. Understanding how employment varies across regions helps policymakers, businesses, and the public make informed decisions. This project aims to explore which industries experienced significant employment changes over recent years and how these changes vary across different regions.
+
+# Data Collection
+
+# Data Cleaning and Wrangling
+
+# Exploratory Data Analysis
+
+# Results
+
+# Conclusion
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
