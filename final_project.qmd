@@ -1,19 +1,169 @@
 ---
-title: "Exploring Employment Changes Across Industries"
-author: "Ya-Nuo, Hsu and Kevin Johnson"
-format: pdf
-editor: visual
+title: "Employment Trends Analysis in Canada: 2015-2019 vs. 2020-2024"
+author: Ya-Nuo, Hsu and Kevin Johnson
+fontsize: 12pt
+mainfont: "Times New Roman"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    number_sections: true
 ---
 
-# Introduction
+```{r setup, include=FALSE}
+# Load required libraries
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(ggplot2)
 
-Employment trends provide key insights into economic conditions, indicating which industries are growing or declining. Understanding how employment varies across regions helps policymakers, businesses, and the public make informed decisions. This project aims to explore which industries experienced significant employment changes over recent years and how these changes vary across different regions.
+employment_trends <- read.csv("~/Desktop/Stat 184/employment_trends.csv")
 
-# Data Collection
+employment_trends_clean <- employment_trends %>%
+  filter(REF_DATE >= "2015-01" & REF_DATE <= "2024-12",
+         UOM != "Dollars") %>%
+  mutate(
+    REF_DATE = as.character(REF_DATE),
+    Employment = replace_na(VALUE, 0), 
+    Period = ifelse(REF_DATE < "2020-01", "Pre-Pandemic", "Post-Pandemic")
+  ) %>%
+  select(-c(DGUID, SYMBOL, TERMINATED, SCALAR_FACTOR, SCALAR_ID, STATUS, DECIMALS, Estimate, VECTOR, COORDINATE, UOM_ID)) %>%
+  rename(
+    Industry = North.American.Industry.Classification.System..NAICS., 
+    Region = GEO,
+    Date = REF_DATE
+  )
 
-# Data Cleaning and Wrangling
+write.csv(employment_trends_clean, "employment_trends_clean.csv", row.names = FALSE)
 
-# Exploratory Data Analysis
+post_pandemic_employment_trends <- employment_trends_clean %>%
+  filter(Date >= "2020-01" & Date <= "2024-12")
+
+pre_pandemic_employment_trends <- employment_trends_clean %>%
+  filter(Date >= "2015-01" & Date <= "2019-12")
+
+View(employment_trends_clean)
+
+# Pre-Pandemic Stacked Bar Chart
+pre_stacked_data <- pre_pandemic_employment_trends %>%
+  group_by(Industry) %>%
+  summarise(Total_Employment = sum(Employment, na.rm = TRUE)) %>%
+  mutate(Proportion = Total_Employment / sum(Total_Employment))
+
+# Post-Pandemic Stacked Bar Chart
+post_stacked_data <- post_pandemic_employment_trends %>%
+  group_by(Industry) %>%
+  summarise(Total_Employment = sum(Employment, na.rm = TRUE)) %>%
+  mutate(Proportion = Total_Employment / sum(Total_Employment))
+
+# Set global options
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.align = "center")
+```
+
+## Introduction
+
+Employment trends are a key indicator of economic performance and recovery, particularly during periods of disruption. In this report, we analyze how employment in Canada has evolved over two distinct periods: the pre-pandemic years (2015–2019) and the post-pandemic years (2020–2024). The goal is to identify changes in employment trends across industries and regions, using data spanning from 2015 to 2024.
+
+## Literature Review
+
+Employment trends have been extensively studied, especially during periods of economic recovery following major events like the COVID-19 pandemic. Studies have identified regional and industry-specific disparities in employment recovery post-pandemic. For instance, service-based industries often experience slower recovery compared to technology-driven sectors. This section will explore relevant literature on employment trends in Canada and similar economies, emphasizing regional and industrial differences.
+
+## Methodology
+
+We use a publicly available dataset covering monthly employment data from 2015 to 2024. The dataset includes fields for regions, industries, and employment numbers. Data were filtered to include only the years of interest (2015–2024) and were classified into two periods: Pre-Pandemic (2015–2019) and Post-Pandemic (2020–2024).
+
+Statistical analysis and visualizations are used to identify trends and significant differences between these periods.
+
+## Data Exploration
+
+```{r data-exploration}
+summary_stats <- employment_trends_clean %>%
+  group_by(Period, Industry) %>%
+  summarise(
+    Avg_Employment = mean(Employment, na.rm = TRUE),
+    Min_Employment = min(Employment, na.rm = TRUE),
+    Max_Employment = max(Employment, na.rm = TRUE),
+    SD_Employment = sd(Employment, na.rm = TRUE)
+  )
+
+kable(summary_stats, caption = "Summary Statistics for Employment Trends") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+## Visualization: Employment Trends Over Time
+
+```{r results-visualizations}
+employment_trends_group <- employment_trends_clean %>%
+  mutate(
+    Region_Group = case_when(
+      Region %in% c("British Columbia", "Alberta", "Saskatchewan", "Manitoba") ~ "Western Canada",
+      Region %in% c("Ontario", "Quebec") ~ "Central Canada",
+      Region %in% c("New Brunswick", "Nova Scotia", "Prince Edward Island", "Newfoundland and Labrador") ~ "Atlantic Canada",
+      TRUE ~ "Northern Territories"
+    )
+  )
+
+ggplot(employment_trends_group, aes(x = Date, y = Employment, color = Industry, group = interaction(Region, Industry))) +
+  geom_line() +
+  facet_wrap(~Region_Group, scales = "free_y") +
+  labs(
+    title = "Employment Trends by Region Groups (2015–2024)",
+    x = "Month-Year",
+    y = "Employment"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom",
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8)
+  ) +
+  scale_x_discrete(
+    breaks = c("2015-01", "2017-01", "2019-01", "2021-01", "2023-01")
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_color_viridis_d()
+```
+
+# Visualization: Employment Comparison Pre- vs Post-Pandemic
+
+```{r}
+#Pre-Pandemic
+ggplot(pre_stacked_data, aes(x = Industry, y = Proportion, fill = Industry)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(
+    title = "Proportion of Employment by Industry (Pre-Pandemic)",
+    subtitle = "2015–2019",
+    x = "Industry",
+    y = "Proportion of Employment"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
+  scale_fill_viridis_d() +
+  scale_y_continuous(labels = scales::percent)
+#Post-Panedmic
+ggplot(post_stacked_data, aes(x = Industry, y = Proportion, fill = Industry)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(
+    title = "Proportion of Employment by Industry (Post-Pandemic)",
+    subtitle = "2020–2024",
+    x = "Industry",
+    y = "Proportion of Employment"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
+  scale_fill_viridis_d() +
+  scale_y_continuous(labels = scales::percent)
+
+```
 
 # Results
 
