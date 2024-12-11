@@ -52,19 +52,19 @@ Employment trends are a key indicator of economic performance and recovery, part
 
 ## Provenance
 
-We found our data on Kaggle, and it is sourced from the Survey of Employment, Payrolls, and Hours. This data was collected to provide information about employment levels and includes variables such as geographical region, industry, and employment level. Each case is represented by the employment of a specific industry in a specific geographic region for a given month and year.  
+We found our data on Kaggle, and it is sourced from the Survey of Employment, Payrolls, and Hours. This data was collected to provide information about employment levels and includes variables such as geographical region, industry, and employment level. Each case is represented by the employment of a specific industry in a specific geographic region for a given month and year.
 
 ## Literature Review
 
-Employment trends have been extensively studied, especially during periods of economic recovery following major events like the COVID-19 pandemic. Studies have identified regional and industry-specific disparities in employment recovery post-pandemic. For instance, service-based industries often experience slower recovery compared to technology-driven sectors. This section will explore relevant literature on employment trends in Canada and similar economies, emphasizing regional and industrial differences. 
+Employment trends have been extensively studied, especially during periods of economic recovery following major events like the COVID-19 pandemic. Studies have identified regional and industry-specific disparities in employment recovery post-pandemic. For instance, service-based industries often experience slower recovery compared to technology-driven sectors. This section will explore relevant literature on employment trends in Canada and similar economies, emphasizing regional and industrial differences.
 
-The COVID-19 Pandemic had a drastic effect on the Canadian economy and labor market, causing changes in employment levels. The article from StatCan (2022) mentions that between January 2020 and May 2020, Canada saw roughly 3.4 million jobs lost (nearly 20% of employment). RBC (2022) highlights the change in employment across different sectors, and how employment seemed to rise post pandemic in low contact industries, such as finance, but fell in high contact industries, such as accommodation and food services. Environics Analytics (2021) goes into detail on how population growth decreased across regions in 2020, as compared to the growth it experienced in 2018 and 2019. It also mentions an overall decline in mental health amongst Canadians, illustrating the fact that COVID had great impacts in Canada beyond just employment.  
+The COVID-19 Pandemic had a drastic effect on the Canadian economy and labor market, causing changes in employment levels. The article from StatCan (2022) mentions that between January 2020 and May 2020, Canada saw roughly 3.4 million jobs lost (nearly 20% of employment). RBC (2022) highlights the change in employment across different sectors, and how employment seemed to rise post pandemic in low contact industries, such as finance, but fell in high contact industries, such as accommodation and food services. Environics Analytics (2021) goes into detail on how population growth decreased across regions in 2020, as compared to the growth it experienced in 2018 and 2019. It also mentions an overall decline in mental health amongst Canadians, illustrating the fact that COVID had great impacts in Canada beyond just employment.
 
 ## Methodology
 
-We use a publicly available dataset covering monthly employment data from 2015 to 2024. The dataset includes fields for regions, industries, and employment numbers. Data were filtered to include only the years of interest (2015–2024) and were classified into two periods: Pre-Pandemic (2015–2019) and Post-Pandemic (2020–2024). 
+We use a publicly available dataset covering monthly employment data from 2015 to 2024. The dataset includes fields for regions, industries, and employment numbers. Data were filtered to include only the years of interest (2015–2024) and were classified into two periods: Pre-Pandemic (2015–2019) and Post-Pandemic (2020–2024).
 
-Statistical analysis and visualizations are used to identify trends and significant differences between these periods.  
+Statistical analysis and visualizations are used to identify trends and significant differences between these periods.
 
 Our main goal is to investigate employment trends across major industry sectors in Canada and how they were affected by COVID-19. Through statistical analysis and data visualization, we will see how employment level was affected by the pandemic, and how different industries rebounded from the pandemic. We will look at factors such as geographic region to compare these trends across different regions in Canada.
 
@@ -87,7 +87,7 @@ kable(summary_stats, caption = "Summary Statistics for Employment Trends in Cana
   scroll_box(height = "500px")
 ```
 
-This five number summary table includes key statistics regarding the employment level across different industries both before and after the COVID-19 pandemic and it provides us with an idea of the employment distribution across. The industry “Industrial aggregate including unclassified businesses” groups all the industries together and provides us with insight to the employment of Canada as a whole. The data from the aggregate grouping of industries allows us to compare individual industries to the total employment in Canada, and it sets a baseline for comparing these industries with each other. 
+This five number summary table includes key statistics regarding the employment level across different industries both before and after the COVID-19 pandemic and it provides us with an idea of the employment distribution across. The industry “Industrial aggregate including unclassified businesses” groups all the industries together and provides us with insight to the employment of Canada as a whole. The data from the aggregate grouping of industries allows us to compare individual industries to the total employment in Canada, and it sets a baseline for comparing these industries with each other.
 
 We will also use this summary table to get a basis for the major industries we will be researching: Goods producing industries (Construction, Manufacturing, and Mining) and service producing industries (Accommodation and food services, Healthcare, and Transportation and warehousing).
 
@@ -126,13 +126,6 @@ ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Indus
   ) +
   scale_y_continuous(labels = scales::comma)
 ```
-
-<<<<<<< HEAD
-## Visualization: Employment Comparison Pre- vs Post-Pandemic
-=======
-
-# Visualization: Employment Comparison Pre- vs Post-Pandemic
->>>>>>> f226ddc8cc92580f0b5e77e5af8ebfb8e967d8aa
 
 ```{r goods_ind, echo=FALSE}
 #goods_industries
