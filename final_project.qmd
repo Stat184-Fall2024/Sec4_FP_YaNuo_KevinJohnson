@@ -3,11 +3,7 @@ title: "Employment Trends Analysis in Canada: 2015-2019 vs. 2020-2024"
 author: Ya-Nuo, Hsu and Kevin Johnson
 fontsize: 12pt
 mainfont: "Times New Roman"
-output: 
-  pdf_document:
-    latex_engine: xelatex
-    toc: true
-    number_sections: true
+format: pdf
 ---
 
 ```{r setup, include=FALSE}
@@ -127,9 +123,9 @@ ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Indus
   scale_y_continuous(labels = scales::comma)
 ```
 
-Based on this data visualization, it is apparent that from the beginning 2015 until early 2020, both the goods producing industries and service producing industries experienced stable employment growth. However, both industries experienced a decline in employment between March and May of 2020. To further investigate this detail, we performed some calculations on the data. The service producing industries peak employment of 13,803,575 (December 2019) in the pre-pandemic period experienced a 19.93% decrease, dropping to an employment level of 11,052,028 in May of 2020, its lowest employment level in the post-pandemic period. The goods producing industries saw an employment level of 2,994,154, its highest of the pre-pandemic period, drop to 2,468,268 in April of 2020, indicating a 17.56% decrease in employment. Although they experienced similar decreases in employment, based off the graph it appears that the goods producing industries recovered more steadily than the service producing industries. 
+Based on this data visualization, it is apparent that from the beginning 2015 until early 2020, both the goods producing industries and service producing industries experienced stable employment growth. However, both industries experienced a decline in employment between March and May of 2020. To further investigate this detail, we performed some calculations on the data. The service producing industries peak employment of 13,803,575 (December 2019) in the pre-pandemic period experienced a 19.93% decrease, dropping to an employment level of 11,052,028 in May of 2020, its lowest employment level in the post-pandemic period. The goods producing industries saw an employment level of 2,994,154, its highest of the pre-pandemic period, drop to 2,468,268 in April of 2020, indicating a 17.56% decrease in employment. Although they experienced similar decreases in employment, based off the graph it appears that the goods producing industries recovered more steadily than the service producing industries.
 
-```{r goods_ind, echo=FALSE}
+```{r goods_ind, echo=FALSE, fig.width=8, fig.height=7}
 #goods_industries
 goods_industries <- c("Manufacturing [31-33]", 
                       "Construction [23]", 
@@ -167,7 +163,7 @@ ggplot(goods_summary, aes(x = Industry, y = Average_Employment, fill = Period)) 
   scale_y_continuous(labels = scales::comma)
 ```
 
-```{r service_ind, echo=FALSE}
+```{r service_ind, echo=FALSE, fig.width=8, fig.height=7}
 #service_industries
 service_industries <- c("Health care and social assistance [62]",
                         "Accommodation and food services [72]",
