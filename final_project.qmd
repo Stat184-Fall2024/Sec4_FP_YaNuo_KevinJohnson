@@ -3,11 +3,7 @@ title: "Employment Trends Analysis in Canada: 2015-2019 vs. 2020-2024"
 author: Ya-Nuo, Hsu and Kevin Johnson
 fontsize: 12pt
 mainfont: "Times New Roman"
-output: 
-  pdf_document:
-    latex_engine: xelatex
-    toc: true
-    number_sections: true
+format: pdf
 ---
 
 ```{r setup, include=FALSE}
