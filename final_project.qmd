@@ -17,7 +17,7 @@ library(knitr)
 library(kableExtra)
 library(ggplot2)
 
-employment_trends <- read.csv("~/Desktop/Stat184/employment_trends.csv")
+employment_trends <- read.csv("~/Desktop/Stat 184/employment_trends.csv")
 
 employment_trends_clean <- employment_trends %>%
   filter(REF_DATE >= "2015-01" & REF_DATE <= "2024-12",
@@ -89,7 +89,7 @@ kable(summary_stats, caption = "Summary Statistics for Employment Trends in Cana
 
 This five number summary table includes key statistics regarding the employment level across different industries both before and after the COVID-19 pandemic and it provides us with an idea of the employment distribution across. The industry “Industrial aggregate including unclassified businesses” groups all the industries together and provides us with insight to the employment of Canada as a whole. The data from the aggregate grouping of industries allows us to compare individual industries to the total employment in Canada, and it sets a baseline for comparing these industries with each other. 
 
-We will also use this summary table to get a basis for the major industries we will be researching: Goods producing industries (Construction, Manufacturing, and Mining) and Service producing industries (Accommodation and food services, Healthcare, and Transportation and warehousing).
+We will also use this summary table to get a basis for the major industries we will be researching: Goods producing industries (Construction, Manufacturing, and Mining) and service producing industries (Accommodation and food services, Healthcare, and Transportation and warehousing).
 
 ## Visualization: Employment Trends Over Time
 
