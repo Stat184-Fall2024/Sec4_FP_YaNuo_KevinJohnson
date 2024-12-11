@@ -62,7 +62,7 @@ Statistical analysis and visualizations are used to identify trends and signific
 
 ## Data Exploration
 
-```{r data-exploration}
+```{r data_clean, echo=FALSE}
 summary_stats <- employment_trends_clean %>%
   filter(Region == "Canada") %>% 
   group_by(Period, Industry) %>%
@@ -81,7 +81,7 @@ kable(summary_stats, caption = "Summary Statistics for Employment Trends in Cana
 
 ## Visualization: Employment Trends Over Time
 
-```{r results-visualizations}
+```{r trends, echo=FALSE}
 filtered_data_canada <- employment_trends_clean %>%
   filter(
     Region == "Canada", 
@@ -115,9 +115,9 @@ ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Indus
   scale_y_continuous(labels = scales::comma)
 ```
 
-# Visualization: Employment Comparison Pre- vs Post-Pandemic
+## Visualization: Employment Comparison Pre- vs Post-Pandemic
 
-```{r}
+```{r goods_ind, echo=FALSE}
 #goods_industries
 goods_industries <- c("Manufacturing [31-33]", 
                       "Construction [23]", 
@@ -155,7 +155,7 @@ ggplot(goods_summary, aes(x = Industry, y = Average_Employment, fill = Period)) 
   scale_y_continuous(labels = scales::comma)
 ```
 
-```{r}
+```{r service_ind, echo=FALSE}
 #service_industries
 service_industries <- c("Health care and social assistance [62]",
                         "Accommodation and food services [72]",
@@ -195,23 +195,9 @@ ggplot(service_summary, aes(x = Industry, y = Average_Employment, fill = Period)
   scale_y_continuous(labels = scales::comma)
 ```
 
-# Results
+## Results
 
-# Conclusion
+## Conclusion
 
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
+```{r codeAppend, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 ```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
