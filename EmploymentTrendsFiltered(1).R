@@ -25,8 +25,20 @@ post_pandemic_employment_trends <- employment_trends_clean %>%
 pre_pandemic_employment_trends <- employment_trends_clean %>%
   filter(Date >= "2015-01" & Date <= "2019-12")
 
-summary_stats <- employment_trends_clean %>%
-  filter(Region == "Canada") %>% 
+industries_summary <- employment_trends_clean%>%
+  filter(
+    Region == "Canada", 
+    Industry %in% c("Goods producing industries [11-33N]", 
+                    "Service producing industries [41-91N]",
+                    "Mining, quarrying, and oil and gas extraction [21]",
+                    "Construction [23]",
+                    "Manufacturing [31-33]",
+                    "Transportation and warehousing [48-49]",
+                    "Health care and social assistance [62]",
+                    "Accommodation and food services [72]")
+  )
+
+summary_stats <- industries_summary %>%
   group_by(Period, Industry) %>%
   summarise(
     Avg_Employment = mean(Employment, na.rm = TRUE),
@@ -36,12 +48,15 @@ summary_stats <- employment_trends_clean %>%
   ) %>%
   arrange(Industry, Period)
 
+
+
 filtered_data_canada <- employment_trends_clean %>%
   filter(
     Region == "Canada", 
     Industry %in% c("Goods producing industries [11-33N]", 
                     "Service producing industries [41-91N]")
   )
+
 industry_trends_canada <- filtered_data_canada %>%
   group_by(Date, Industry) %>%
   summarise(Total_Employment = sum(Employment, na.rm = TRUE)) %>%
