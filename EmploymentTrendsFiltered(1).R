@@ -25,6 +25,16 @@ post_pandemic_employment_trends <- employment_trends_clean %>%
 pre_pandemic_employment_trends <- employment_trends_clean %>%
   filter(Date >= "2015-01" & Date <= "2019-12")
 
+summary_stats <- employment_trends_clean %>%
+  filter(Region == "Canada") %>% 
+  group_by(Period, Industry) %>%
+  summarise(
+    Avg_Employment = mean(Employment, na.rm = TRUE),
+    Min_Employment = min(Employment, na.rm = TRUE),
+    Max_Employment = max(Employment, na.rm = TRUE),
+    SD_Employment = sd(Employment, na.rm = TRUE)
+  ) %>%
+  arrange(Industry, Period)
 
 filtered_data_canada <- employment_trends_clean %>%
   filter(

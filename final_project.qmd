@@ -64,16 +64,19 @@ Statistical analysis and visualizations are used to identify trends and signific
 
 ```{r data-exploration}
 summary_stats <- employment_trends_clean %>%
+  filter(Region == "Canada") %>% 
   group_by(Period, Industry) %>%
   summarise(
     Avg_Employment = mean(Employment, na.rm = TRUE),
     Min_Employment = min(Employment, na.rm = TRUE),
     Max_Employment = max(Employment, na.rm = TRUE),
     SD_Employment = sd(Employment, na.rm = TRUE)
-  )
+  ) %>%
+  arrange(Industry, Period)
 
-kable(summary_stats, caption = "Summary Statistics for Employment Trends") %>%
-  kable_styling(bootstrap_options = c("striped", "hover"))
+kable(summary_stats, caption = "Summary Statistics for Employment Trends in Canada") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  scroll_box(height = "500px")
 ```
 
 ## Visualization: Employment Trends Over Time
