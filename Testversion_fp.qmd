@@ -1,11 +1,7 @@
 ---
-format:
-  pdf:
-    number-sections: true
 fontsize: 12pt
 mainfont: "Times New Roman"
-geometry: "margin=1in"
-linestretch: 1.5
+format: pdf
 ---
 \begin{titlepage}
 \centering
@@ -21,8 +17,6 @@ linestretch: 1.5
 \thispagestyle{plain}
 \end{titlepage}
 
-\newpage
-\tableofcontents
 \newpage
 ```{r setup, include=FALSE}
 # Load required libraries
