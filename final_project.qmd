@@ -1,6 +1,7 @@
 ---
 title: "Employment Trends Analysis in Canada: 2015-2019 vs. 2020-2024"
 author: Ya-Nuo, Hsu and Kevin Johnson
+date: "12/18/24"
 fontsize: 12pt
 mainfont: "Times New Roman"
 format: pdf
@@ -23,8 +24,7 @@ employment_trends_clean <- employment_trends %>%
     Employment = replace_na(VALUE, 0), 
     Period = ifelse(REF_DATE < "2020-01", "Pre-Pandemic", "Post-Pandemic")
   ) %>%
-  select(-c(DGUID, SYMBOL, TERMINATED, SCALAR_FACTOR, SCALAR_ID, STATUS, 
-            DECIMALS, Estimate, VECTOR, COORDINATE, UOM_ID)) %>%
+  select(-c(DGUID, SYMBOL, TERMINATED, SCALAR_FACTOR, SCALAR_ID, STATUS, DECIMALS, Estimate, VECTOR, COORDINATE, UOM_ID)) %>%
   rename(
     Industry = North.American.Industry.Classification.System..NAICS., 
     Region = GEO,
@@ -53,8 +53,7 @@ industries_summary <- employment_trends_clean%>%
   )
 
 # Set global options
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, 
-                      fig.align = "center")
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.align = "center")
 ```
 
 ## Introduction
@@ -93,11 +92,8 @@ summary_stats <- industries_summary %>%
   ) %>%
   arrange(Industry, Period)
 
-kable(summary_stats, 
-      caption = "Summary Statistics for Employment Trends in Canada") %>%
-  kable_styling(bootstrap_options = c("striped", "hover"), 
-                full_width = FALSE, font_size = 8) %>%
-  scroll_box(height = "500px", width = "100%") %>%
+kable(summary_stats, caption = "Summary Statistics for Employment Trends in Canada") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE, font_size = 8) %>%
   kableExtra::column_spec(2, width = "5cm")
 ```
 
@@ -119,8 +115,7 @@ industry_trends_canada <- filtered_data_canada %>%
   summarise(Total_Employment = sum(Employment, na.rm = TRUE)) %>%
   ungroup()
 
-ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, 
-                                   color = Industry, group = Industry)) +
+ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Industry, group = Industry)) +
   geom_line(size = 1.2) +
   labs(
     title = "Employment Trends Over Time in Canada (2015–2024)",
@@ -178,8 +173,7 @@ ggplot(goods_summary, aes(x = Industry, y = Average_Employment, fill = Period)) 
     axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = "bottom"
   ) +
-  scale_fill_manual(values = c("Pre-Pandemic" = "#2C7FB8", 
-                               "Post-Pandemic" = "#D95F02")) +
+  scale_fill_manual(values = c("Pre-Pandemic" = "#2C7FB8", "Post-Pandemic" = "#D95F02")) +
   scale_y_continuous(labels = scales::comma)
 ```
 
@@ -221,8 +215,7 @@ ggplot(service_summary, aes(x = Industry, y = Average_Employment, fill = Period)
     axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = "bottom"
   ) +
-  scale_fill_manual(values = c("Pre-Pandemic" = "#2C7FB8", 
-                               "Post-Pandemic" = "#D95F02")) +
+  scale_fill_manual(values = c("Pre-Pandemic" = "#2C7FB8", "Post-Pandemic" = "#D95F02")) +
   scale_y_continuous(labels = scales::comma)
 ```
 
