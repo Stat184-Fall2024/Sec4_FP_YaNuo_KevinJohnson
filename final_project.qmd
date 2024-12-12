@@ -1,12 +1,23 @@
 ---
-title: "Employment Trends Analysis in Canada: 2015-2019 vs. 2020-2024"
-author: Ya-Nuo, Hsu and Kevin Johnson
-date: "12/18/24"
 fontsize: 12pt
 mainfont: "Times New Roman"
 format: pdf
 ---
+\begin{titlepage}
+\centering
+\vspace*{4cm}
+{\Huge \textbf{Employment Trends Analysis in Canada}}\\
+\vspace{0.5cm}
+{\LARGE \textbf{2015-2019 vs. 2020-2024}}\\
+\vspace{2cm}
+{\Large Ya-Nuo, Hsu and Kevin Johnson}\\
+\vspace{1cm}
+{\Large December 18, 2024}\\
+\vfill
+\thispagestyle{plain}
+\end{titlepage}
 
+\newpage
 ```{r setup, include=FALSE}
 # Load required libraries
 library(tidyverse)
@@ -259,7 +270,12 @@ We get our result of 76.55 for degrees freedom, and then calculate the p-value. 
 ```{r}
 2*pt(4.64, 76.55, lower.tail = FALSE)
 ```
+<<<<<<< HEAD
 Because our p-value of about 0.00001 is less than 0.05, we are able to reject the null hypothesis at a 95% significance level. There is convincing evidence that the difference in average employment level for goods producing industries in Canada between the pre-pandemic and post-pandemic periods is statistically significant.
+=======
+
+Because our p-value of 7.067453e-06 is less than 0.05, we are able to reject the null hypothesis at a 95% significance level. There is convincing evidence that the difference in average employment level for goods producing industries in Canada between the pre-pandemic and post-pandemic periods is statistically significant.
+>>>>>>> 5944efb4bccf58cf90253b94648b0b86b4575a15
 
 ## Hypothesis Test 2: Does the mean employment level in service producing industries in Canada between the pre-pandemic and post-pandemic periods have a statistically significant difference?
 
