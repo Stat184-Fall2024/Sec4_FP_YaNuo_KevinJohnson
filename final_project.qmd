@@ -129,7 +129,7 @@ ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Indus
     axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = "bottom",
     legend.title = element_blank(),
-    legend.text = element_text(size = 10)
+    legend.text = element_text(size = 8)
   ) +
   scale_x_discrete(
     breaks = c("2015-01", "2017-01", "2019-01", "2021-01", "2023-01")
