@@ -4,11 +4,7 @@ author: Ya-Nuo, Hsu and Kevin Johnson
 date: "12/18/24"
 fontsize: 12pt
 mainfont: "Times New Roman"
-output: 
-  pdf_document:
-    latex_engine: xelatex
-    toc: true
-    number_sections: true
+format: pdf
 ---
 
 ```{r setup, include=FALSE}
@@ -84,8 +80,9 @@ Our main goal is to investigate employment trends across major industry sectors 
 
 ## Data Exploration
 
-```{r summary_table, echo=FALSE}
+```{r data_clean, echo=FALSE}
 summary_stats <- industries_summary %>%
+  filter(Region == "Canada") %>% 
   group_by(Period, Industry) %>%
   summarise(
     Avg_Employment = mean(Employment, na.rm = TRUE),
@@ -96,8 +93,8 @@ summary_stats <- industries_summary %>%
   arrange(Industry, Period)
 
 kable(summary_stats, caption = "Summary Statistics for Employment Trends in Canada") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) %>%
-  scroll_box(height = "500px", width = "100%")
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE, font_size = 8) %>%
+  kableExtra::column_spec(2, width = "5cm")
 ```
 
 This five number summary table includes key statistics regarding the employment level across different industries both before and after the COVID-19 pandemic and it provides us with an idea of the employment distribution across. The industry “Industrial aggregate including unclassified businesses” groups all the industries together and provides us with insight to the employment of Canada as a whole. The data from the aggregate grouping of industries allows us to compare individual industries to the total employment in Canada, and it sets a baseline for comparing these industries with each other.
@@ -127,12 +124,12 @@ ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Indus
     y = "Total Employment",
     color = "Industry"
   ) +
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 10) +
   theme(
-    axis.text.x = element_text(angle = 90, hjust = 1),
+    axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = "bottom",
     legend.title = element_blank(),
-    legend.text = element_text(size = 10)
+    legend.text = element_text(size = 8)
   ) +
   scale_x_discrete(
     breaks = c("2015-01", "2017-01", "2019-01", "2021-01", "2023-01")
@@ -142,7 +139,7 @@ ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Indus
 
 Based on this data visualization, it is apparent that from the beginning 2015 until early 2020, both the goods producing industries and service producing industries experienced stable employment growth. However, both industries experienced a decline in employment between March and May of 2020. To further investigate this detail, we performed some calculations on the data. The service producing industries peak employment of 13,803,575 (December 2019) in the pre-pandemic period experienced a 19.93% decrease, dropping to an employment level of 11,052,028 in May of 2020, its lowest employment level in the post-pandemic period. The goods producing industries saw an employment level of 2,994,154, its highest of the pre-pandemic period, drop to 2,468,268 in April of 2020, indicating a 17.56% decrease in employment. Although they experienced similar decreases in employment, based off the graph it appears that the goods producing industries recovered more steadily than the service producing industries.
 
-```{r goods_industries, echo=FALSE}
+```{r goods_ind, echo=FALSE, fig.width=8, fig.height=7}
 #goods_industries
 goods_industries <- c("Manufacturing [31-33]", 
                       "Construction [23]", 
@@ -180,7 +177,9 @@ ggplot(goods_summary, aes(x = Industry, y = Average_Employment, fill = Period)) 
   scale_y_continuous(labels = scales::comma)
 ```
 
-```{r service_ind, echo=FALSE}
+This visualization shows us the average employment levels for the three industries we are focusing on in the goods producing industries (construction, manufacturing, and mining) during both the pre-pandemic and post-pandemic periods. From the pre-pandemic to post-pandemic period, construction saw a 9.31% increase in average employment, manufacturing saw a 0.38% increase in average employment, and mining saw a 0.18% increase in average employment. These values indicate that construction recovered strongly from the dip in employment it experienced during the pandemic, while manufacturing and mining leveled out back to their pre-pandemic levels.
+
+```{r service_ind, echo=FALSE, fig.width=8, fig.height=7}
 #service_industries
 service_industries <- c("Health care and social assistance [62]",
                         "Accommodation and food services [72]",
@@ -219,6 +218,8 @@ ggplot(service_summary, aes(x = Industry, y = Average_Employment, fill = Period)
   scale_fill_manual(values = c("Pre-Pandemic" = "#2C7FB8", "Post-Pandemic" = "#D95F02")) +
   scale_y_continuous(labels = scales::comma)
 ```
+
+This visualization shows the average employment levels between the pre-pandemic and post-pandemic years for the service producing industries (Accommodation and food services, health care and social assistance, and transportation and warehousing). Accommodation and food services saw a 10.27% decrease in average employment between the two periods, indicating that COVID had a significant impact on this industry. Health care and social assistance and transportation and warehousing saw a 12.6% increase and a 6.96% increase in average employment between the two periods, respectfully. This indicates that these sectors recovered strongly from the effects of the pandemic and are now growing.
 
 ## Results
 
