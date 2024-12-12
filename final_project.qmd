@@ -163,6 +163,8 @@ ggplot(goods_summary, aes(x = Industry, y = Average_Employment, fill = Period)) 
   scale_y_continuous(labels = scales::comma)
 ```
 
+This visualization shows us the average employment levels for the three industries we are focusing on in the goods producing industries (construction, manufacturing, and mining) during both the pre-pandemic and post-pandemic periods. From the pre-pandemic to post-pandemic period, construction saw a 9.31% increase in average employment, manufacturing saw a 0.38% increase in average employment, and mining saw a 0.18% increase in average employment. These values indicate that construction recovered strongly from the dip in employment it experienced during the pandemic, while manufacturing and mining leveled out back to their pre-pandemic levels.
+
 ```{r service_ind, echo=FALSE, fig.width=8, fig.height=7}
 #service_industries
 service_industries <- c("Health care and social assistance [62]",
@@ -202,6 +204,8 @@ ggplot(service_summary, aes(x = Industry, y = Average_Employment, fill = Period)
   scale_fill_manual(values = c("Pre-Pandemic" = "#2C7FB8", "Post-Pandemic" = "#D95F02")) +
   scale_y_continuous(labels = scales::comma)
 ```
+
+This visualization shows the average employment levels between the pre-pandemic and post-pandemic years for the service producing industries (Accommodation and food services, health care and social assistance, and transportation and warehousing). Accommodation and food services saw a 10.27% decrease in average employment between the two periods, indicating that COVID had a significant impact on this industry. Health care and social assistance and transportation and warehousing saw a 12.6% increase and a 6.96% increase in average employment between the two periods, respectfully. This indicates that these sectors recovered strongly from the effects of the pandemic and are now growing.
 
 ## Results
 
