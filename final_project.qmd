@@ -1,6 +1,7 @@
 ---
 title: "Employment Trends Analysis in Canada: 2015-2019 vs. 2020-2024"
 author: Ya-Nuo, Hsu and Kevin Johnson
+date: "12/18/24"
 fontsize: 12pt
 mainfont: "Times New Roman"
 format: pdf
@@ -93,7 +94,6 @@ summary_stats <- industries_summary %>%
 
 kable(summary_stats, caption = "Summary Statistics for Employment Trends in Canada") %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE, font_size = 8) %>%
-  scroll_box(height = "500px", width = "100%") %>%
   kableExtra::column_spec(2, width = "5cm")
 ```
 
