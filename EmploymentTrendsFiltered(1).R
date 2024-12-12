@@ -1,4 +1,5 @@
 library(tidyverse)
+library(lubridate)
 
 employment_trends <- read.csv("~/Desktop/Stat 184/employment_trends.csv")
 
@@ -62,6 +63,7 @@ industry_trends_canada <- filtered_data_canada %>%
   summarise(Total_Employment = sum(Employment, na.rm = TRUE)) %>%
   ungroup()
 
+
 ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Industry, group = Industry)) +
   geom_line(size = 1.2) +
   labs(
@@ -71,7 +73,10 @@ ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Indus
     y = "Total Employment",
     color = "Industry"
   ) +
-  theme_minimal(base_size = 12) +
+  geom_vline(xintercept = as.numeric(ym("2020-03")), linetype = "dashed", color = "red") +
+  annotate("text", x = ym("2020-03"), y = max(industry_trends_canada$Total_Employment)*0.95,
+           label = "Pandemic Start (Mar 2020)", color = "red", angle = 90, vjust = -0.5, size = 3) +
+  theme_minimal(base_size = 10) +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = "bottom",

@@ -1,12 +1,29 @@
 ---
-title: "Employment Trends Analysis in Canada: 2015-2019 vs. 2020-2024"
-author: Ya-Nuo, Hsu and Kevin Johnson
-date: "12/18/24"
+format:
+  pdf:
+    number-sections: true
 fontsize: 12pt
 mainfont: "Times New Roman"
-format: pdf
+geometry: "margin=1in"
+linestretch: 1.5
 ---
+\begin{titlepage}
+\centering
+\vspace*{4cm}
+{\Huge \textbf{Employment Trends Analysis in Canada}}\\
+\vspace{0.5cm}
+{\LARGE \textbf{2015-2019 vs. 2020-2024}}\\
+\vspace{2cm}
+{\Large Ya-Nuo, Hsu and Kevin Johnson}\\
+\vspace{1cm}
+{\Large December 18, 2024}\\
+\vfill
+\thispagestyle{plain}
+\end{titlepage}
 
+\newpage
+\tableofcontents
+\newpage
 ```{r setup, include=FALSE}
 # Load required libraries
 library(tidyverse)
