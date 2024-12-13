@@ -270,12 +270,9 @@ We get our result of 76.55 for degrees freedom, and then calculate the p-value. 
 ```{r}
 2*pt(4.64, 76.55, lower.tail = FALSE)
 ```
-<<<<<<< HEAD
 Because our p-value of about 0.00001 is less than 0.05, we are able to reject the null hypothesis at a 95% significance level. There is convincing evidence that the difference in average employment level for goods producing industries in Canada between the pre-pandemic and post-pandemic periods is statistically significant.
-=======
 
 Because our p-value of 7.067453e-06 is less than 0.05, we are able to reject the null hypothesis at a 95% significance level. There is convincing evidence that the difference in average employment level for goods producing industries in Canada between the pre-pandemic and post-pandemic periods is statistically significant.
->>>>>>> 5944efb4bccf58cf90253b94648b0b86b4575a15
 
 ## Hypothesis Test 2: Does the mean employment level in service producing industries in Canada between the pre-pandemic and post-pandemic periods have a statistically significant difference?
 
