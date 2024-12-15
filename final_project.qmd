@@ -304,6 +304,14 @@ Because our p-value of about 0.000009 is less than 0.05, we reject the null hypo
 
 Our analysis revealed that in both goods and service producing industries in Canada, the difference in average total employment between the pre-pandemic and post-pandemic periods was statistically significant. This finding suggests that the COVID-19 pandemic likely had a large impact on the shift in employment in industry sectors such as manufacturing, construction, mining, accommodation and food service, health care, and transportation and warehousing. For the goods producing industries, shifts in employment were likely due to factors such as disruption in production and labor availability. In the service producing industries, shifts in employment were likely due more to changes in consumer behavior and changes in demand due to protocols such as lock downs and social distancing. Despite the potential factors that caused changes in these industries being different, both goods producing and service producing industries in Canada were negatively impacted by the pandemic. This serves as an emphasis on the lasting affects of the pandemic on the economy.
 
+## References
+
+Clarke, Sean, and Andrew Fields. “Employment Growth in Canada and the United States during the Recovery from COVID-19.” Statistics Canada, 22 Dec. 2022, www150.statcan.gc.ca/n1/pub/36-28-0001/2022012/article/00001-eng.htm. 
+
+Norris, Doug. “The Impact of Covid-19 on Population, Employment, Social and Economic Trends in Canada.” Environics Analytics, 25 Mar. 2021, environicsanalytics.com/en-ca/resources/blogs/ea-blog/2021/03/25/the-impact-of-covid-19-on-population-employment-social-and-economic-trends-in-canada. 
+
+Powell, Naomi, et al. “Canada’s Post-Pandemic Labour Market Shakeup.” RBC Thought Leadership, 13 Sept. 2022, thoughtleadership.rbc.com/canadas-post-pandemic-labour-market-shakeup/. 
+
 ## Code Appendix
 
 ```{r codeAppend, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
