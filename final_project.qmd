@@ -112,7 +112,7 @@ This five number summary table includes key statistics regarding the employment 
 
 We will also use this summary table to get a basis for the major industries we will be researching: Goods producing industries (Construction, Manufacturing, and Mining) and service producing industries (Accommodation and food services, Healthcare, and Transportation and warehousing).
 
-## Visualization: Employment Trends Over Time
+## Visualization
 
 ```{r trends, echo=FALSE}
 filtered_data_canada <- employment_trends_clean %>%
@@ -181,7 +181,7 @@ ggplot(goods_summary, aes(x = Industry, y = Average_Employment, fill = Period)) 
   ) +
   theme_minimal(base_size = 12) +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10.5),
     legend.position = "bottom"
   ) +
   scale_fill_manual(values = c("Pre-Pandemic" = "#2C7FB8", "Post-Pandemic" = "#D95F02")) +
@@ -223,7 +223,7 @@ ggplot(service_summary, aes(x = Industry, y = Average_Employment, fill = Period)
   ) +
   theme_minimal(base_size = 12) +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10.5),
     legend.position = "bottom"
   ) +
   scale_fill_manual(values = c("Pre-Pandemic" = "#2C7FB8", "Post-Pandemic" = "#D95F02")) +
@@ -270,12 +270,9 @@ We get our result of 76.55 for degrees freedom, and then calculate the p-value. 
 ```{r}
 2*pt(4.64, 76.55, lower.tail = FALSE)
 ```
-<<<<<<< HEAD
 Because our p-value of about 0.00001 is less than 0.05, we are able to reject the null hypothesis at a 95% significance level. There is convincing evidence that the difference in average employment level for goods producing industries in Canada between the pre-pandemic and post-pandemic periods is statistically significant.
-=======
 
 Because our p-value of 7.067453e-06 is less than 0.05, we are able to reject the null hypothesis at a 95% significance level. There is convincing evidence that the difference in average employment level for goods producing industries in Canada between the pre-pandemic and post-pandemic periods is statistically significant.
->>>>>>> 5944efb4bccf58cf90253b94648b0b86b4575a15
 
 ## Hypothesis Test 2: Does the mean employment level in service producing industries in Canada between the pre-pandemic and post-pandemic periods have a statistically significant difference?
 
@@ -299,6 +296,18 @@ After obtaining our degrees freedom of 113.85, we calculate our p-value. We use 
 2*pt(4.75, 73.13, lower.tail = FALSE)
 ```
 Because our p-value of about 0.000009 is less than 0.05, we reject the null hypothesis at the 95% significance level. There is convincing evidence to determine that the difference in mean total employment levels in service producing industries in Canada between the pre-pandemic and post-pandemic periods is statistically significant.
+
+## Result
+
+Our analysis shows patterns in how employment changed in goods producing and service producing industries in Canada. Both groups had large drops in employment early in the COVID-19 pandemic (March–May 2020). Service producing industries, such as Accommodation and Food Services, Healthcare, and Transportation and Warehousing, had bigger drops at the start than goods producing industries, like Construction, Manufacturing, and Mining.
+
+Our data show that service producing industries, which reached their highest employment in December 2019, fell by about 20% at their lowest point. Goods producing industries fell by about 17.56% at their lowest point. These findings match RBC (2022), which says that high-contact, service-based sectors were hit harder by pandemic rules and recovered more slowly than other sectors.
+
+When we look at average employment before and after the pandemic, we see that some goods producing industries, like Construction, rebounded by about 9.31%. Manufacturing and Mining returned to near their pre-pandemic levels. These trends match StatCan (2022), which says that industries tied to supply chains and infrastructure got back on track faster.
+
+But Accommodation and Food Services had a 10.27% drop in average employment after the pandemic. This shows the problems that high-contact service sectors faced. These results also match RBC (2022), which says that changes in consumer behavior, health rules, and travel patterns slowed their recovery. But Healthcare and Transportation grew by about 12.6% and 6.96%. This suggests that industries linked to essential services and logistics found ways to meet new demands. Environics Analytics (2021) also found that changing population and health needs shaped labor market trends.
+
+So these differences are not random. Our hypothesis tests show that mean employment levels in goods producing and service producing industries changed in a meaningful way after the pandemic. The p-values are far below 0.05. For example, the p-value is about 0.000001 for goods producing industries and about 0.000009 for service producing industries. So we have strong evidence that these changes are real shifts in the labor market. This supports the idea that the COVID-19 pandemic had a big and lasting effect on jobs in these industries.
 
 ## Conclusion
 
