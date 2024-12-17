@@ -1,7 +1,8 @@
 ---
-fontsize: 12pt
-mainfont: "Times New Roman"
-format: pdf
+format: 
+  pdf:
+    fontsize: 12pt
+    mainfont: "Times New Roman"
 ---
 \begin{titlepage}
 \centering
@@ -25,8 +26,9 @@ library(knitr)
 library(kableExtra)
 library(ggplot2)
 
+# Load employment trends data 
 employment_trends <- read.csv("~/Desktop/Stat 184/employment_trends.csv")
-
+# Data cleaning
 employment_trends_clean <- employment_trends %>%
   filter(REF_DATE >= "2015-01" & REF_DATE <= "2024-12",
          UOM != "Dollars") %>%
@@ -44,12 +46,14 @@ employment_trends_clean <- employment_trends %>%
 
 write.csv(employment_trends_clean, "employment_trends_clean.csv", row.names = FALSE)
 
+# Create subsets for post-pandemic and pre-pandemic data
 post_pandemic_employment_trends <- employment_trends_clean %>%
   filter(Date >= "2020-01" & Date <= "2024-12")
 
 pre_pandemic_employment_trends <- employment_trends_clean %>%
   filter(Date >= "2015-01" & Date <= "2019-12")
 
+# Filter data for specific industries within Canada
 industries_summary <- employment_trends_clean%>%
   filter(
     Region == "Canada", 
@@ -79,7 +83,7 @@ We found our data on Kaggle, and it is sourced from the Survey of Employment, Pa
 
 Employment trends have been extensively studied, especially during periods of economic recovery following major events like the COVID-19 pandemic. Studies have identified regional and industry-specific disparities in employment recovery post-pandemic. For instance, service-based industries often experience slower recovery compared to technology-driven sectors. This section will explore relevant literature on employment trends in Canada and similar economies, emphasizing regional and industrial differences.
 
-The COVID-19 Pandemic had a drastic effect on the Canadian economy and labor market, causing changes in employment levels. The article from StatCan (2022) mentions that between January 2020 and May 2020, Canada saw roughly 3.4 million jobs lost (nearly 20% of employment). RBC (2022) highlights the change in employment across different sectors, and how employment seemed to rise post pandemic in low contact industries, such as finance, but fell in high contact industries, such as accommodation and food services. Environics Analytics (2021) goes into detail on how population growth decreased across regions in 2020, as compared to the growth it experienced in 2018 and 2019. It also mentions an overall decline in mental health amongst Canadians, illustrating the fact that COVID had great impacts in Canada beyond just employment.
+The COVID-19 Pandemic had a drastic effect on the Canadian economy and labor market, causing changes in employment levels. The article from Clarke and Fields (2022) mentions that between January 2020 and May 2020, Canada saw roughly 3.4 million jobs lost (nearly 20% of employment). Fan, Janzen, and Powell (2022) highlights the change in employment across different sectors, and how employment seemed to rise post pandemic in low contact industries, such as finance, but fell in high contact industries, such as accommodation and food services. Norris (2021) goes into detail on how population growth decreased across regions in 2020, as compared to the growth it experienced in 2018 and 2019. It also mentions an overall decline in mental health amongst Canadians, illustrating the fact that COVID had great impacts in Canada beyond just employment.
 
 ## Methodology
 
@@ -92,6 +96,7 @@ Our main goal is to investigate employment trends across major industry sectors 
 ## Data Exploration
 
 ```{r data_clean, echo=FALSE}
+# Calculate summary statistics
 summary_stats <- industries_summary %>%
   filter(Region == "Canada") %>% 
   group_by(Period, Industry) %>%
@@ -102,7 +107,7 @@ summary_stats <- industries_summary %>%
     SD_Employment = sd(Employment, na.rm = TRUE)
   ) %>%
   arrange(Industry, Period)
-
+# Display to a table
 kable(summary_stats, caption = "Summary Statistics for Employment Trends in Canada") %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE, font_size = 8) %>%
   kableExtra::column_spec(2, width = "5cm")
@@ -115,17 +120,19 @@ We will also use this summary table to get a basis for the major industries we w
 ## Visualization
 
 ```{r trends, echo=FALSE}
+# Filter data
 filtered_data_canada <- employment_trends_clean %>%
   filter(
     Region == "Canada", 
     Industry %in% c("Goods producing industries [11-33N]", 
                     "Service producing industries [41-91N]")
   )
+# Summarize total employment by date and industry
 industry_trends_canada <- filtered_data_canada %>%
   group_by(Date, Industry) %>%
   summarise(Total_Employment = sum(Employment, na.rm = TRUE)) %>%
   ungroup()
-
+# Plot employment trends over time using ggplot
 ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Industry, group = Industry)) +
   geom_line(size = 1.2) +
   labs(
@@ -151,23 +158,25 @@ ggplot(industry_trends_canada, aes(x = Date, y = Total_Employment, color = Indus
 Based on this data visualization, it is apparent that from the beginning 2015 until early 2020, both the goods producing industries and service producing industries experienced stable employment growth. However, both industries experienced a decline in employment between March and May of 2020. To further investigate this detail, we performed some calculations on the data. The service producing industries peak employment of 13,803,575 (December 2019) in the pre-pandemic period experienced a 19.93% decrease, dropping to an employment level of 11,052,028 in May of 2020, its lowest employment level in the post-pandemic period. The goods producing industries saw an employment level of 2,994,154, its highest of the pre-pandemic period, drop to 2,468,268 in April of 2020, indicating a 17.56% decrease in employment. Although they experienced similar decreases in employment, based off the graph it appears that the goods producing industries recovered more steadily than the service producing industries.
 
 ```{r goods_ind, echo=FALSE, fig.width=8, fig.height=7}
-#goods_industries
+# Define Goods Producing Industries
 goods_industries <- c("Manufacturing [31-33]", 
                       "Construction [23]", 
                       "Mining, quarrying, and oil and gas extraction [21]")
+# Filter data
 goods_data <- employment_trends_clean %>%
   filter(
     Industry %in% goods_industries,
     Region == "Canada"
   )
+# Calculate average employment
 goods_summary <- goods_data %>%
   group_by(Industry, Period) %>%
   summarise(Average_Employment = mean(Employment, na.rm = TRUE)) %>%
   ungroup()
-
+# Convert Period to factor with specific levels
 goods_summary <- goods_summary %>%
   mutate(Period = factor(Period, levels = c("Pre-Pandemic", "Post-Pandemic")))
-
+# Plot average employment levels for Goods Producing Industries
 ggplot(goods_summary, aes(x = Industry, y = Average_Employment, fill = Period)) +
   geom_bar(stat = "identity", position = position_dodge()) +
   geom_text(aes(label = scales::comma(round(Average_Employment, 0))), 
@@ -191,25 +200,25 @@ ggplot(goods_summary, aes(x = Industry, y = Average_Employment, fill = Period)) 
 This visualization shows us the average employment levels for the three industries we are focusing on in the goods producing industries (construction, manufacturing, and mining) during both the pre-pandemic and post-pandemic periods. From the pre-pandemic to post-pandemic period, construction saw a 9.31% increase in average employment, manufacturing saw a 0.38% increase in average employment, and mining saw a 0.18% increase in average employment. These values indicate that construction recovered strongly from the dip in employment it experienced during the pandemic, while manufacturing and mining leveled out back to their pre-pandemic levels.
 
 ```{r service_ind, echo=FALSE, fig.width=8, fig.height=7}
-#service_industries
+# Define Service Producing Industries
 service_industries <- c("Health care and social assistance [62]",
                         "Accommodation and food services [72]",
                         "Transportation and warehousing [48-49]")
-
+# Filter data
 service_data <- employment_trends_clean %>%
   filter(
     Industry %in% service_industries,
     Region == "Canada"
   )
-
+# Calculate average employment
 service_summary <- service_data %>%
   group_by(Industry, Period) %>%
   summarise(Average_Employment = mean(Employment, na.rm = TRUE)) %>%
   ungroup()
-
+# Convert Period to factor with specific levels
 service_summary <- service_summary %>%
   mutate(Period = factor(Period, levels = c("Pre-Pandemic", "Post-Pandemic")))
-
+# Plot average employment levels for Service Producing Industries
 ggplot(service_summary, aes(x = Industry, y = Average_Employment, fill = Period)) +
   geom_bar(stat = "identity", position = position_dodge()) +
   geom_text(aes(label = scales::comma(round(Average_Employment, 0))), 
@@ -267,7 +276,8 @@ $$
 df = \frac{2.6e+17}{(1.11e+14)(3.28e+15)} = 76.55
 $$
 We get our result of 76.55 for degrees freedom, and then calculate the p-value. We use the absolute value of our test statistic because it is negative, and multiply the p-value by 2 because it is a two tailed test.
-```{r}
+
+```{r, echo=FALSE}
 2*pt(4.64, 76.55, lower.tail = FALSE)
 ```
 Because our p-value of about 0.00001 is less than 0.05, we are able to reject the null hypothesis at a 95% significance level. There is convincing evidence that the difference in average employment level for goods producing industries in Canada between the pre-pandemic and post-pandemic periods is statistically significant.
@@ -292,7 +302,7 @@ $$
 df = \frac{2.883e+20}{(8.86e+16)(3.86e+19)} = 73.13
 $$
 After obtaining our degrees freedom of 113.85, we calculate our p-value. We use the absolute value of our test statistic because it was negative, and multiply the p-value by 2 because it is a two tailed test.
-```{r}
+```{r, echo=FALSE}
 2*pt(4.75, 73.13, lower.tail = FALSE)
 ```
 Because our p-value of about 0.000009 is less than 0.05, we reject the null hypothesis at the 95% significance level. There is convincing evidence to determine that the difference in mean total employment levels in service producing industries in Canada between the pre-pandemic and post-pandemic periods is statistically significant.
@@ -301,26 +311,33 @@ Because our p-value of about 0.000009 is less than 0.05, we reject the null hypo
 
 Our analysis shows patterns in how employment changed in goods producing and service producing industries in Canada. Both groups had large drops in employment early in the COVID-19 pandemic (March–May 2020). Service producing industries, such as Accommodation and Food Services, Healthcare, and Transportation and Warehousing, had bigger drops at the start than goods producing industries, like Construction, Manufacturing, and Mining.
 
-Our data show that service producing industries, which reached their highest employment in December 2019, fell by about 20% at their lowest point. Goods producing industries fell by about 17.56% at their lowest point. These findings match RBC (2022), which says that high-contact, service-based sectors were hit harder by pandemic rules and recovered more slowly than other sectors.
+Our data show that service producing industries, which reached their highest employment in December 2019, fell by about 20% at their lowest point. Goods producing industries fell by about 17.56% at their lowest point. These findings match RBC Thought Leadership (2022), which says that high-contact, service-based sectors were hit harder by pandemic rules and recovered more slowly than other sectors.
 
-When we look at average employment before and after the pandemic, we see that some goods producing industries, like Construction, rebounded by about 9.31%. Manufacturing and Mining returned to near their pre-pandemic levels. These trends match StatCan (2022), which says that industries tied to supply chains and infrastructure got back on track faster.
+When we look at average employment before and after the pandemic, we see that some goods producing industries, like Construction, rebounded by about 9.31%. Manufacturing and Mining returned to near their pre-pandemic levels. These trends match Clarke and Fields (2022), which says that industries tied to supply chains and infrastructure got back on track faster.
 
-But Accommodation and Food Services had a 10.27% drop in average employment after the pandemic. This shows the problems that high-contact service sectors faced. These results also match RBC (2022), which says that changes in consumer behavior, health rules, and travel patterns slowed their recovery. But Healthcare and Transportation grew by about 12.6% and 6.96%. This suggests that industries linked to essential services and logistics found ways to meet new demands. Environics Analytics (2021) also found that changing population and health needs shaped labor market trends.
+But Accommodation and Food Services had a 10.27% drop in average employment after the pandemic. This shows the problems that high-contact service sectors faced. These results also match RBC Thought Leadership (2022), which says that changes in consumer behavior, health rules, and travel patterns slowed their recovery. But Healthcare and Transportation grew by about 12.6% and 6.96%. This suggests that industries linked to essential services and logistics found ways to meet new demands. Norris (2021) also found that changing population and health needs shaped labor market trends.
 
 So these differences are not random. Our hypothesis tests show that mean employment levels in goods producing and service producing industries changed in a meaningful way after the pandemic. The p-values are far below 0.05. For example, the p-value is about 0.000001 for goods producing industries and about 0.000009 for service producing industries. So we have strong evidence that these changes are real shifts in the labor market. This supports the idea that the COVID-19 pandemic had a big and lasting effect on jobs in these industries.
 
 ## Conclusion
 
 Our analysis revealed that in both goods and service producing industries in Canada, the difference in average total employment between the pre-pandemic and post-pandemic periods was statistically significant. This finding suggests that the COVID-19 pandemic likely had a large impact on the shift in employment in industry sectors such as manufacturing, construction, mining, accommodation and food service, health care, and transportation and warehousing. For the goods producing industries, shifts in employment were likely due to factors such as disruption in production and labor availability. In the service producing industries, shifts in employment were likely due more to changes in consumer behavior and changes in demand due to protocols such as lock downs and social distancing. Despite the potential factors that caused changes in these industries being different, both goods producing and service producing industries in Canada were negatively impacted by the pandemic. This serves as an emphasis on the lasting affects of the pandemic on the economy.
+\newpage
 
 ## References
 
-Clarke, Sean, and Andrew Fields. “Employment Growth in Canada and the United States during the Recovery from COVID-19.” Statistics Canada, 22 Dec. 2022, www150.statcan.gc.ca/n1/pub/36-28-0001/2022012/article/00001-eng.htm. 
+\noindent Clarke, S., \& Fields, A. (2022). \textit{Employment growth in Canada and the United States during the recovery from COVID-19}. Statistics Canada.
+\url{https://www150.statcan.gc.ca/n1/pub/36-28-0001/2022012/article/00001-eng.htm}
 
-Norris, Doug. “The Impact of Covid-19 on Population, Employment, Social and Economic Trends in Canada.” Environics Analytics, 25 Mar. 2021, environicsanalytics.com/en-ca/resources/blogs/ea-blog/2021/03/25/the-impact-of-covid-19-on-population-employment-social-and-economic-trends-in-canada. 
+\noindent Fan, C., Janzen, N., \& Powell, N. (2022). \textit{Canada’s post-pandemic labour market shakeup}. RBC Thought Leadership.
+\url{https://thoughtleadership.rbc.com/canadas-post-pandemic-labour-market-shakeup/}
 
-Powell, Naomi, et al. “Canada’s Post-Pandemic Labour Market Shakeup.” RBC Thought Leadership, 13 Sept. 2022, thoughtleadership.rbc.com/canadas-post-pandemic-labour-market-shakeup/. 
+\noindent Noeyislearning. (2024). \textit{Employment trends [Dataset]}. Kaggle. \url{https://www.kaggle.com/datasets/noeyislearning/employment-trends}
 
+\noindent Norris, D. (2021). \textit{The impact of COVID-19 on population, employment, social and economic trends in Canada}. Environics Analytics.
+\url{https://environicsanalytics.com/en-ca/resources/blogs/ea-blog/2021/03/25/the-impact-of-covid-19-on-population-employment-social-and-economic-trends-in-canada}
+
+\newpage
 ## Code Appendix
 
 ```{r codeAppend, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
